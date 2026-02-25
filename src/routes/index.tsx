@@ -8,7 +8,7 @@ const INITIAL_CONTENT = `# Markdown Now
 
 A minimal, **live** markdown editor. Type on the left, see the preview on the right — *instantly*. Toggle dark/light mode up top, or hit **Save as PDF** to export.
 
-_Clear this and start writing!_
+*Clear this and start writing!*
 `;
 
 function ThemeToggle() {
@@ -92,9 +92,19 @@ function Editor() {
       {/* Header */}
       <header className="flex items-center justify-between h-12 px-3 md:px-4 border-b shrink-0 bg-[var(--bg)] border-[var(--border)]">
         <span className="flex items-center gap-2 text-sm font-semibold tracking-tight text-[var(--text-secondary)]">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 208 128" width="20" height="12" fill="currentColor">
-            <path clipRule="evenodd" d="m15 10c-2.7614 0-5 2.2386-5 5v98c0 2.761 2.2386 5 5 5h178c2.761 0 5-2.239 5-5v-98c0-2.7614-2.239-5-5-5zm-15 5c0-8.28427 6.71573-15 15-15h178c8.284 0 15 6.71573 15 15v98c0 8.284-6.716 15-15 15h-178c-8.28427 0-15-6.716-15-15z" fillRule="evenodd"/>
-            <path d="m30 98v-68h20l20 25 20-25h20v68h-20v-39l-20 25-20-25v39zm125 0-30-33h20v-35h20v35h20z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 208 128"
+            width="20"
+            height="12"
+            fill="currentColor"
+          >
+            <path
+              clipRule="evenodd"
+              d="m15 10c-2.7614 0-5 2.2386-5 5v98c0 2.761 2.2386 5 5 5h178c2.761 0 5-2.239 5-5v-98c0-2.7614-2.239-5-5-5zm-15 5c0-8.28427 6.71573-15 15-15h178c8.284 0 15 6.71573 15 15v98c0 8.284-6.716 15-15 15h-178c-8.28427 0-15-6.716-15-15z"
+              fillRule="evenodd"
+            />
+            <path d="m30 98v-68h20l20 25 20-25h20v68h-20v-39l-20 25-20-25v39zm125 0-30-33h20v-35h20v35h20z" />
           </svg>
           <span className="hidden sm:inline">Markdown Now</span>
         </span>
@@ -150,7 +160,10 @@ function Editor() {
       </header>
 
       {/* Editor + Preview */}
-      <div data-layout className="grid grid-cols-1 md:grid-cols-2 flex-1 min-h-0">
+      <div
+        data-layout
+        className="grid grid-cols-1 md:grid-cols-2 flex-1 min-h-0"
+      >
         {/* Editor pane */}
         <div
           data-editor-pane
