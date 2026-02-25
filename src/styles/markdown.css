@@ -185,6 +185,32 @@
   accent-color: #0070f3;
 }
 
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .markdown-preview h1 {
+    font-size: 1.5rem;
+  }
+
+  .markdown-preview h2 {
+    font-size: 1.25rem;
+  }
+
+  .markdown-preview h3 {
+    font-size: 1.125rem;
+  }
+
+  .markdown-preview pre {
+    font-size: 0.8125rem;
+    padding: 0.75rem;
+  }
+
+  .markdown-preview table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 /* Syntax highlighting - dark */
 :root .markdown-preview .hljs-keyword,
 :root .markdown-preview .hljs-selector-tag,
