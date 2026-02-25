@@ -6,48 +6,161 @@ export const Route = createFileRoute("/")({ component: Editor });
 
 const INITIAL_CONTENT = `# Welcome to Markdown Now
 
-A minimal, live markdown editor with a clean preview.
+A minimal, **live** markdown editor. Type on the left, see the preview on the right — *instantly*. Toggle dark/light mode up top, or hit **Save as PDF** to export.
 
-## Features
+Clear this and start writing, or scroll through to see everything that's supported.
 
-- **Live preview** as you type
-- GitHub Flavored Markdown support
-- Syntax highlighted code blocks
-- Tables, task lists, and more
+---
 
-## Code Example
+## Text Styling
 
-\`\`\`typescript
-function greet(name: string): string {
-  return \`Hello, \${name}!\`;
-}
+You can write in **bold**, *italic*, or ***both at once***. ~~Cross things out~~ when plans change. Mix them freely — **bold with *nested italic* inside** works great.
 
-console.log(greet("world"));
-\`\`\`
+Inline \`code\` renders in monospace, perfect for mentioning things like \`useState\` or \`config.ts\` in a sentence.
 
-## Table
+## Links
 
-| Feature | Status |
-|---------|--------|
-| GFM | Supported |
-| Code highlighting | Supported |
-| Tables | Supported |
-| Task lists | Supported |
+- [GitHub](https://github.com) — standard links
+- [Hover me](https://example.com "This is a title") — links with tooltips
+- Bare URLs auto-link: https://example.com
 
-## Blockquote
+## Images
+
+![Markdown Now](https://placehold.co/600x180/171717/ededed?text=Your+Image+Here)
+
+## Lists
+
+Unordered lists with nesting:
+
+- First item
+- Second item
+  - Nested item
+  - Another nested item
+    - Even deeper
+- Third item
+
+Ordered lists:
+
+1. Write your markdown
+2. Preview it live
+   1. Check the formatting
+   2. Adjust as needed
+3. Export to PDF
+
+## Task Lists
+
+Track your progress with GitHub-style checklists:
+
+- [x] Set up the editor
+- [x] Add live preview
+- [x] Dark and light themes
+- [x] PDF export
+- [ ] Write something amazing
+
+## Blockquotes
 
 > The best way to predict the future is to invent it.
 > — Alan Kay
 
-### Task List
+Nested quotes work too:
 
-- [x] Set up editor
-- [x] Add live preview
-- [ ] Write something great
+> Someone once said:
+>
+> > Simplicity is the ultimate sophistication.
+> >
+> > — Leonardo da Vinci
+
+## Code Blocks
+
+Syntax highlighting for many languages:
+
+\`\`\`typescript
+interface Document {
+  title: string;
+  content: string;
+  createdAt: Date;
+}
+
+async function save(doc: Document): Promise<void> {
+  const res = await fetch("/api/docs", {
+    method: "POST",
+    body: JSON.stringify(doc),
+  });
+  if (!res.ok) throw new Error("Failed to save");
+}
+\`\`\`
+
+\`\`\`python
+def word_count(text: str) -> dict[str, int]:
+    """Count occurrences of each word."""
+    counts = {}
+    for word in text.lower().split():
+        counts[word] = counts.get(word, 0) + 1
+    return counts
+\`\`\`
+
+\`\`\`css
+:root {
+  --bg: #0a0a0a;
+  --text: #ededed;
+  --accent: #0070f3;
+}
+\`\`\`
+
+\`\`\`json
+{
+  "name": "markdown-now",
+  "version": "1.0.0",
+  "features": ["gfm", "syntax-highlighting", "pdf-export"]
+}
+\`\`\`
+
+## Tables
+
+Tables support left, center, and right alignment:
+
+| Feature | Syntax | Supported |
+|:--------|:------:|----------:|
+| Bold | \`**text**\` | Yes |
+| Italic | \`*text*\` | Yes |
+| Strikethrough | \`~~text~~\` | Yes |
+| Code | \`\\\`code\\\`\` | Yes |
+| Links | \`[text](url)\` | Yes |
+| Images | \`![alt](url)\` | Yes |
+
+## Headings
+
+You've already seen \`#\` and \`##\`. Here are the rest:
+
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+
+## Horizontal Rules
+
+Use \`---\`, \`***\`, or \`___\` to create dividers:
 
 ---
 
-Start editing on the left to see your markdown rendered here.
+## HTML
+
+Some inline HTML works too: <strong>bold</strong>, <em>italic</em>, <mark>highlighted</mark>, and line<br/>breaks.
+
+<details>
+<summary>Expandable section (click me)</summary>
+
+Hidden content that supports **full markdown**:
+
+1. Item one
+2. Item two
+3. Item three
+
+</details>
+
+---
+
+> That's everything. Clear this and start writing — your preview updates as you type.
 `;
 
 function ThemeToggle() {
