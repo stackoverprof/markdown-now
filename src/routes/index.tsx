@@ -99,31 +99,7 @@ function Editor() {
           <span className="hidden sm:inline">Markdown Now</span>
         </span>
 
-        {/* Mobile tab switcher */}
-        <div className="flex md:hidden items-center bg-[var(--surface)] rounded-md border border-[var(--border)] overflow-hidden">
-          <button
-            onClick={() => setMobileView("editor")}
-            className={`px-3 py-1 text-xs font-medium transition-colors ${
-              mobileView === "editor"
-                ? "bg-[var(--border)] text-[var(--text)]"
-                : "text-[var(--text-secondary)]"
-            }`}
-          >
-            Edit
-          </button>
-          <button
-            onClick={() => setMobileView("preview")}
-            className={`px-3 py-1 text-xs font-medium transition-colors ${
-              mobileView === "preview"
-                ? "bg-[var(--border)] text-[var(--text)]"
-                : "text-[var(--text-secondary)]"
-            }`}
-          >
-            Preview
-          </button>
-        </div>
-
-        <div className="flex items-center gap-0.5 md:gap-1">
+        <div className="flex items-center gap-1 md:gap-1">
           <button
             onClick={() => window.print()}
             aria-label="Save as PDF"
@@ -146,6 +122,30 @@ function Editor() {
             <span className="hidden md:inline">Save as PDF</span>
           </button>
           <ThemeToggle />
+
+          {/* Mobile tab switcher */}
+          <div className="flex md:hidden items-center bg-[var(--surface)] rounded-md border border-[var(--border)] overflow-hidden ml-1">
+            <button
+              onClick={() => setMobileView("editor")}
+              className={`px-3 py-1 text-xs font-medium transition-colors ${
+                mobileView === "editor"
+                  ? "bg-[var(--border)] text-[var(--text)]"
+                  : "text-[var(--text-secondary)]"
+              }`}
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => setMobileView("preview")}
+              className={`px-3 py-1 text-xs font-medium transition-colors ${
+                mobileView === "preview"
+                  ? "bg-[var(--border)] text-[var(--text)]"
+                  : "text-[var(--text-secondary)]"
+              }`}
+            >
+              Preview
+            </button>
+          </div>
         </div>
       </header>
 
