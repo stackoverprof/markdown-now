@@ -4,7 +4,7 @@ import { MarkdownPreview } from "../components/markdown-preview";
 
 export const Route = createFileRoute("/")({ component: Editor });
 
-const INITIAL_CONTENT = `# Welcome to Markdown Now
+const INITIAL_CONTENT = `# Markdown Now
 
 A minimal, **live** markdown editor. Type on the left, see the preview on the right — *instantly*. Toggle dark/light mode up top, or hit **Save as PDF** to export.
 
@@ -143,6 +143,18 @@ Use \`---\`, \`***\`, or \`___\` to create dividers:
 
 ---
 
+## Diagrams
+
+Flowcharts using Mermaid:
+
+\`\`\`mermaid
+flowchart LR
+    A[Write Markdown] --> B{Preview}
+    B -->|Looks good| C[Export PDF]
+    B -->|Needs work| A
+    C --> D((Done))
+\`\`\`
+
 ## HTML
 
 Some inline HTML works too: <strong>bold</strong>, <em>italic</em>, <mark>highlighted</mark>, and line<br/>breaks.
@@ -272,7 +284,10 @@ function Editor() {
       {/* Editor + Preview */}
       <div data-layout className="grid grid-cols-2 flex-1 min-h-0">
         {/* Editor pane */}
-        <div data-editor-pane className="relative border-r border-[var(--border)]">
+        <div
+          data-editor-pane
+          className="relative border-r border-[var(--border)]"
+        >
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -283,7 +298,10 @@ function Editor() {
         </div>
 
         {/* Preview pane */}
-        <div data-preview-pane className="overflow-y-auto p-6 bg-[var(--surface)]">
+        <div
+          data-preview-pane
+          className="overflow-y-auto p-6 bg-[var(--surface)]"
+        >
           <MarkdownPreview content={content} />
         </div>
       </div>

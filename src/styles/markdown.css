@@ -109,10 +109,16 @@
 }
 
 /* Lists */
-.markdown-preview ul,
+.markdown-preview ul {
+  margin: 0 0 1rem;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+
 .markdown-preview ol {
   margin: 0 0 1rem;
   padding-left: 1.5rem;
+  list-style-type: decimal;
 }
 
 .markdown-preview li {
@@ -160,6 +166,17 @@
 .markdown-preview img {
   max-width: 100%;
   border-radius: 6px;
+}
+
+/* Mermaid diagrams */
+.markdown-preview .mermaid-diagram {
+  margin: 0 0 1rem;
+  text-align: center;
+}
+
+.markdown-preview .mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Task lists (GFM) */
