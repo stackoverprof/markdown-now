@@ -64,6 +64,11 @@ function Editor() {
     writeSaved(next);
   }
 
+  function handleReset() {
+    updateContent(INITIAL_CONTENT);
+    navigate({ search: {} });
+  }
+
   function handleTemplateSelect(t: Template) {
     updateContent(t.content);
     navigate({ search: { template: t.slug } });
@@ -73,7 +78,10 @@ function Editor() {
     <div className="flex flex-col h-[100dvh]">
       {/* Header */}
       <header className="flex items-center justify-between h-12 px-3 md:px-4 border-b shrink-0 bg-[var(--bg)] border-[var(--border)]">
-        <span className="flex items-center gap-2 text-sm font-semibold tracking-tight text-[var(--text-secondary)]">
+        <button
+          onClick={handleReset}
+          className="flex items-center gap-2 text-sm font-semibold tracking-tight text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 208 128"
@@ -89,7 +97,7 @@ function Editor() {
             <path d="m30 98v-68h20l20 25 20-25h20v68h-20v-39l-20 25-20-25v39zm125 0-30-33h20v-35h20v35h20z" />
           </svg>
           <span className="hidden sm:inline">Markdown Now</span>
-        </span>
+        </button>
 
         <div className="flex items-center gap-1 md:gap-1">
           <TemplatePopover onSelect={handleTemplateSelect} />
