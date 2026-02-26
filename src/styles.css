@@ -87,6 +87,7 @@ button {
 
   /* Make preview fill the page */
   [data-preview-pane] {
+    display: block !important;
     overflow: visible !important;
     padding: 0 !important;
     background: white !important;
