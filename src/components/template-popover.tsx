@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import type { Template } from "../data/templates.ts";
 import { TEMPLATES } from "../data/templates.ts";
 
 export function TemplatePopover({
   onSelect,
 }: {
-  onSelect: (content: string) => void;
+  onSelect: (template: Template) => void;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -66,7 +67,7 @@ export function TemplatePopover({
               key={t.name}
               role="menuitem"
               onClick={() => {
-                onSelect(t.content);
+                onSelect(t);
                 setOpen(false);
               }}
               className="w-full text-left px-3 py-2 text-sm text-[var(--text-body,var(--text-secondary))] hover:bg-[var(--border)] transition-colors"

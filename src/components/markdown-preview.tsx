@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback, useId } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import mermaid from "mermaid";
@@ -72,7 +73,7 @@ export function MarkdownPreview({ content }: { content: string }) {
   return (
     <div className="markdown-preview">
       <Markdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkBreaks]}
         rehypePlugins={[rehypeRaw, rehypeHighlight]}
         components={{ code: renderCode }}
       >

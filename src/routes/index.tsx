@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { MarkdownPreview } from "../components/markdown-preview.tsx";
 import { TemplatePopover } from "../components/template-popover.tsx";
 import { ThemeToggle } from "../components/theme-toggle.tsx";
-
-export const Route = createFileRoute("/")({ component: Editor });
+import { getTemplateBySlug } from "../data/templates.ts";
+import type { Template } from "../data/templates.ts";
 
 const INITIAL_CONTENT = `# Markdown Now
 
@@ -13,11 +13,30 @@ A minimal, **live** markdown editor. Type on the left, see the preview on the ri
 *Clear this and start writing!*
 `;
 
+export const Route = createFileRoute("/")({
+  component: Editor,
+  validateSearch: (search: Record<string, unknown>) => ({
+    template: (search.template as string) || undefined,
+  }),
+});
+
+function getInitialContent(templateSlug?: string): string {
+  if (!templateSlug) return INITIAL_CONTENT;
+  return getTemplateBySlug(templateSlug)?.content ?? INITIAL_CONTENT;
+}
+
 type MobileView = "editor" | "preview";
 
 function Editor() {
-  const [content, setContent] = useState(INITIAL_CONTENT);
+  const { template } = Route.useSearch();
+  const navigate = useNavigate({ from: "/" });
+  const [content, setContent] = useState(() => getInitialContent(template));
   const [mobileView, setMobileView] = useState<MobileView>("editor");
+
+  function handleTemplateSelect(t: Template) {
+    setContent(t.content);
+    navigate({ search: { template: t.slug } });
+  }
 
   return (
     <div className="flex flex-col h-[100dvh]">
@@ -42,7 +61,7 @@ function Editor() {
         </span>
 
         <div className="flex items-center gap-1 md:gap-1">
-          <TemplatePopover onSelect={(c) => setContent(c)} />
+          <TemplatePopover onSelect={handleTemplateSelect} />
           <button
             onClick={() => window.print()}
             aria-label="Save as PDF"
