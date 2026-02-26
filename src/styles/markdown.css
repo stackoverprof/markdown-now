@@ -54,7 +54,7 @@
 
 /* Links */
 .markdown-preview a {
-  color: #0070f3;
+  color: var(--color-accent);
   text-decoration: none;
   transition: text-decoration 0.15s;
 }
@@ -182,7 +182,7 @@
 /* Task lists (GFM) */
 .markdown-preview input[type="checkbox"] {
   margin-right: 0.5rem;
-  accent-color: #0070f3;
+  accent-color: var(--color-accent);
 }
 
 /* Mobile adjustments */

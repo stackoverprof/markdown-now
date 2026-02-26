@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { MarkdownPreview } from "../components/markdown-preview";
+import { MarkdownPreview } from "../components/markdown-preview.tsx";
+import { TemplatePopover } from "../components/template-popover.tsx";
+import { ThemeToggle } from "../components/theme-toggle.tsx";
 
 export const Route = createFileRoute("/")({ component: Editor });
 
@@ -10,76 +12,6 @@ A minimal, **live** markdown editor. Type on the left, see the preview on the ri
 
 *Clear this and start writing!*
 `;
-
-function ThemeToggle() {
-  const [dark, setDark] = useState(true);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("theme");
-    if (saved === "light") {
-      setDark(false);
-      document.documentElement.setAttribute("data-theme", "light");
-    }
-  }, []);
-
-  function toggle() {
-    const next = !dark;
-    setDark(next);
-    if (next) {
-      document.documentElement.removeAttribute("data-theme");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.setAttribute("data-theme", "light");
-      localStorage.setItem("theme", "light");
-    }
-  }
-
-  return (
-    <button
-      onClick={toggle}
-      aria-label="Toggle theme"
-      className="p-2 md:p-1.5 rounded-md transition-colors hover:bg-[var(--border)]"
-    >
-      {dark ? (
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-[var(--text-secondary)]"
-        >
-          <circle cx="12" cy="12" r="5" />
-          <line x1="12" y1="1" x2="12" y2="3" />
-          <line x1="12" y1="21" x2="12" y2="23" />
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-          <line x1="1" y1="12" x2="3" y2="12" />
-          <line x1="21" y1="12" x2="23" y2="12" />
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-        </svg>
-      ) : (
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-[var(--text-secondary)]"
-        >
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-        </svg>
-      )}
-    </button>
-  );
-}
 
 type MobileView = "editor" | "preview";
 
@@ -110,6 +42,7 @@ function Editor() {
         </span>
 
         <div className="flex items-center gap-1 md:gap-1">
+          <TemplatePopover onSelect={(c) => setContent(c)} />
           <button
             onClick={() => window.print()}
             aria-label="Save as PDF"
@@ -134,8 +67,13 @@ function Editor() {
           <ThemeToggle />
 
           {/* Mobile tab switcher */}
-          <div className="flex md:hidden items-center bg-[var(--surface)] rounded-md border border-[var(--border)] overflow-hidden ml-1">
+          <div
+            role="tablist"
+            className="flex md:hidden items-center bg-[var(--surface)] rounded-md border border-[var(--border)] overflow-hidden ml-1"
+          >
             <button
+              role="tab"
+              aria-selected={mobileView === "editor"}
               onClick={() => setMobileView("editor")}
               className={`px-3 py-1 text-xs font-medium transition-colors ${
                 mobileView === "editor"
@@ -146,6 +84,8 @@ function Editor() {
               Edit
             </button>
             <button
+              role="tab"
+              aria-selected={mobileView === "preview"}
               onClick={() => setMobileView("preview")}
               className={`px-3 py-1 text-xs font-medium transition-colors ${
                 mobileView === "preview"
@@ -175,8 +115,9 @@ function Editor() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             spellCheck={false}
+            aria-label="Markdown editor"
             placeholder="Start writing markdown..."
-            className="absolute inset-0 w-full h-full resize-none font-mono text-base md:text-sm leading-relaxed p-4 md:p-6 outline-none bg-[var(--surface)] text-[var(--text)] placeholder:text-[var(--text-muted)] selection:bg-[#0070f3]/30"
+            className="absolute inset-0 w-full h-full resize-none font-mono text-base md:text-sm leading-relaxed p-4 md:p-6 outline-none bg-[var(--surface)] text-[var(--text)] placeholder:text-[var(--text-muted)] selection:bg-[var(--color-accent)]/30"
           />
         </div>
 

@@ -1,43 +1,53 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useId } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import mermaid from "mermaid";
 
-mermaid.initialize({
-  startOnLoad: false,
-  theme: "dark",
-  fontFamily: "var(--font-sans)",
-});
+let mermaidInitialized = false;
+
+function initMermaid(theme: "default" | "dark") {
+  mermaid.initialize({
+    startOnLoad: false,
+    theme,
+    fontFamily: "var(--font-sans)",
+  });
+  mermaidInitialized = true;
+}
 
 function MermaidBlock({ code }: { code: string }) {
   const ref = useRef<HTMLDivElement>(null);
+  const id = useId();
+  const mermaidId = `mermaid-${id.replace(/:/g, "")}`;
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
-
-    // Detect theme
     const isLight =
       document.documentElement.getAttribute("data-theme") === "light";
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: isLight ? "default" : "dark",
-      fontFamily: "var(--font-sans)",
-    });
+    const theme = isLight ? "default" : "dark";
+
+    if (!mermaidInitialized) {
+      initMermaid(theme);
+    } else {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme,
+        fontFamily: "var(--font-sans)",
+      });
+    }
 
     mermaid
-      .render(id, code)
+      .render(mermaidId, code)
       .then(({ svg }) => {
         el.innerHTML = svg;
       })
       .catch(() => {
         el.textContent = code;
       });
-  }, [code]);
+  }, [code, mermaidId]);
 
   return <div ref={ref} className="mermaid-diagram" />;
 }
