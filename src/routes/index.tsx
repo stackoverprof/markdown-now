@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { MarkdownPreview } from "../components/markdown-preview.tsx";
 import { TemplatePopover } from "../components/template-popover.tsx";
 import { ThemeToggle } from "../components/theme-toggle.tsx";
 import { getTemplateBySlug } from "../data/templates.ts";
 import type { Template } from "../data/templates.ts";
+
+const STORAGE_KEY = "markdown-now:content";
 
 const INITIAL_CONTENT = `# Markdown Now
 
@@ -21,8 +23,11 @@ export const Route = createFileRoute("/")({
 });
 
 function getInitialContent(templateSlug?: string): string {
-  if (!templateSlug) return INITIAL_CONTENT;
-  return getTemplateBySlug(templateSlug)?.content ?? INITIAL_CONTENT;
+  if (templateSlug) {
+    return getTemplateBySlug(templateSlug)?.content ?? INITIAL_CONTENT;
+  }
+  const saved = localStorage.getItem(STORAGE_KEY);
+  return saved ?? INITIAL_CONTENT;
 }
 
 type MobileView = "editor" | "preview";
@@ -32,6 +37,11 @@ function Editor() {
   const navigate = useNavigate({ from: "/" });
   const [content, setContent] = useState(() => getInitialContent(template));
   const [mobileView, setMobileView] = useState<MobileView>("editor");
+
+  // Auto-save to localStorage
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, content);
+  }, [content]);
 
   function handleTemplateSelect(t: Template) {
     setContent(t.content);
