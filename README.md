@@ -7,22 +7,26 @@ A minimal, live markdown editor. Type on the left, see the preview on the right 
 ## Features
 
 - **Live preview** — renders as you type, no delay
+- **CodeMirror editor** — syntax highlighting, keyboard shortcuts, search & replace
 - **GitHub Flavored Markdown** — tables, task lists, strikethrough, autolinks
-- **Syntax highlighting** — code blocks with language detection
 - **Mermaid diagrams** — flowcharts, sequence diagrams, and more
 - **Raw HTML** — `<details>`, `<mark>`, and other HTML tags rendered inline
+- **Templates** — README, Blog Post, Meeting Notes, Cheatsheet, Employment Certificate
+- **Auto-save** — content persists in localStorage across sessions
 - **Dark / light mode** — toggle with a click, preference saved locally
 - **PDF export** — print-optimized layout via Save as PDF
+- **Mobile responsive** — tabbed editor/preview with touch-friendly UI
 
 ## Tech Stack
 
 - [React](https://react.dev) 19
-- [TanStack Start](https://tanstack.com/start) + [TanStack Router](https://tanstack.com/router)
+- [TanStack Router](https://tanstack.com/router)
 - [Tailwind CSS](https://tailwindcss.com) v4
-- [react-markdown](https://github.com/remarkjs/react-markdown) + [remark-gfm](https://github.com/remarkjs/remark-gfm)
+- [CodeMirror](https://codemirror.net) 6
+- [react-markdown](https://github.com/remarkjs/react-markdown) + [remark-gfm](https://github.com/remarkjs/remark-gfm) + [remark-breaks](https://github.com/remarkjs/remark-breaks)
 - [rehype-highlight](https://github.com/rehypejs/rehype-highlight) + [rehype-raw](https://github.com/rehypejs/rehype-raw)
 - [Mermaid](https://mermaid.js.org)
-- [Geist](https://vercel.com/font) font family
+- [Inter](https://rsms.me/inter/) + [Geist Mono](https://vercel.com/font)
 
 ## Getting Started
 
