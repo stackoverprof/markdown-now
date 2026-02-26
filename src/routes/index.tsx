@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { MarkdownPreview } from "../components/markdown-preview.tsx";
+import { CodeEditor } from "../components/code-editor.tsx";
 import { TemplatePopover } from "../components/template-popover.tsx";
 import { ThemeToggle } from "../components/theme-toggle.tsx";
 import { getTemplateBySlug } from "../data/templates.ts";
@@ -140,14 +141,7 @@ function Editor() {
             mobileView === "editor" ? "block" : "hidden"
           } md:block`}
         >
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            spellCheck={false}
-            aria-label="Markdown editor"
-            placeholder="Start writing markdown..."
-            className="absolute inset-0 w-full h-full resize-none font-mono text-base md:text-sm leading-relaxed p-4 md:p-6 outline-none bg-[var(--surface)] text-[var(--text)] placeholder:text-[var(--text-muted)] selection:bg-[var(--color-accent)]/30"
-          />
+          <CodeEditor value={content} onChange={setContent} />
         </div>
 
         {/* Preview pane */}
