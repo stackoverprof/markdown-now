@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { MarkdownPreview } from "../components/markdown-preview.tsx";
 import { CodeEditor } from "../components/code-editor.tsx";
@@ -16,6 +16,22 @@ A minimal, **live** markdown editor. Type on the left, see the preview on the ri
 *Clear this and start writing!*
 `;
 
+function readSaved(): string | null {
+  try {
+    return localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function writeSaved(content: string) {
+  try {
+    localStorage.setItem(STORAGE_KEY, content);
+  } catch {
+    // storage full or unavailable
+  }
+}
+
 export const Route = createFileRoute("/")({
   component: Editor,
   validateSearch: (search: Record<string, unknown>) => ({
@@ -23,29 +39,33 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-function getInitialContent(templateSlug?: string): string {
-  if (templateSlug) {
-    return getTemplateBySlug(templateSlug)?.content ?? INITIAL_CONTENT;
-  }
-  const saved = localStorage.getItem(STORAGE_KEY);
-  return saved ?? INITIAL_CONTENT;
-}
-
 type MobileView = "editor" | "preview";
 
 function Editor() {
   const { template } = Route.useSearch();
   const navigate = useNavigate({ from: "/" });
-  const [content, setContent] = useState(() => getInitialContent(template));
+  const [content, setContent] = useState(() => {
+    // Always prefer localStorage (has user's edits), fall back to template, then default
+    return readSaved() ?? (template ? getTemplateBySlug(template)?.content : null) ?? INITIAL_CONTENT;
+  });
   const [mobileView, setMobileView] = useState<MobileView>("editor");
 
-  // Auto-save to localStorage
+  // Save on beforeunload as a safety net
+  const contentRef = useRef(content);
+  contentRef.current = content;
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, content);
-  }, [content]);
+    const handleUnload = () => writeSaved(contentRef.current);
+    window.addEventListener("beforeunload", handleUnload);
+    return () => window.removeEventListener("beforeunload", handleUnload);
+  }, []);
+
+  function updateContent(next: string) {
+    setContent(next);
+    writeSaved(next);
+  }
 
   function handleTemplateSelect(t: Template) {
-    setContent(t.content);
+    updateContent(t.content);
     navigate({ search: { template: t.slug } });
   }
 
@@ -141,7 +161,7 @@ function Editor() {
             mobileView === "editor" ? "block" : "hidden"
           } md:block`}
         >
-          <CodeEditor value={content} onChange={setContent} />
+          <CodeEditor value={content} onChange={updateContent} />
         </div>
 
         {/* Preview pane */}
