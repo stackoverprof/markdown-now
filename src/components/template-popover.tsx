@@ -60,7 +60,7 @@ export function TemplatePopover({
       {open && (
         <div
           role="menu"
-          className="absolute right-0 top-full mt-1.5 w-48 rounded-lg border border-[var(--border)] bg-[var(--bg)] shadow-lg z-50 py-1"
+          className="absolute left-0 md:left-auto md:right-0 top-full mt-1.5 w-48 rounded-lg border border-[var(--border)] bg-[var(--bg)] shadow-lg z-50 py-1"
         >
           {TEMPLATES.map((t) => (
             <button
