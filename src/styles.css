@@ -72,6 +72,13 @@ button {
   cursor: pointer;
 }
 
+/* Prevent Safari mobile auto-zoom on focus */
+@media (max-width: 767px) {
+  .cm-scroller {
+    font-size: 16px !important;
+  }
+}
+
 /* Print: only show the preview pane */
 @media print {
   body {
